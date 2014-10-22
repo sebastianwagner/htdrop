@@ -1,7 +1,8 @@
 /**
  * @see http://nodeguide.com/beginner.html#a-hello-world-http-server
  */
-var http = require('http');
+var http = require('http'),
+      qs = require('querystring');
 
 function leForm(res) {
  res.writeHead(200);
@@ -11,14 +12,19 @@ function leForm(res) {
 var server = http.createServer(function(req, res) {
   switch(req.method) {
     case 'POST':
-     req.on('data', function(data){
-      console.log(data);
-      console.log('we gotz data!');
+     var weGotData = false, body = '';
+     req.once('data', function(chunk){
+      weGotData = true;
+      body += chunk;
      }).on('end', function(end){
-      console.log('omg the end is nea..');
+      console.log(weGotData? 'weGotData' : 'omg the end is nea..');
+      if(body) {
+        /** @see https://stackoverflow.com/a/4310087 */
+        var post = qs.parse(body);
+        console.log(post);
+      }
       leForm(res);
      });
-     
      break;
     default:
      leForm(res);
