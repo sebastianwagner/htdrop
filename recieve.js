@@ -4,6 +4,7 @@
 var http = require('http'),
 formidable = require('formidable'),
 util = require('util'),
+  colors = require('colors'),
       qs = require('querystring');
 var upload = '<!DOCTYPE html>' + "\n" + '<form method="post" action="?upload" enctype="multipart/form-data"><input type="file" name="filez" multiple required><input type="submit"></form>',
  uploadLen = upload.length;
@@ -43,7 +44,7 @@ var server = http.createServer(function(req, res) {
      //form.multiples = true; //not needed with fileBegin, only for parse.files
      form.on('fileBegin', function(name, file) {
       //req.connection.address()
-      console.log('File from ' + util.inspect(reqInfo) + ' of type "' + file.type + '"' + ': ' + file.name + '');
+      console.log('File from ' + reqInfo.h.bold + ' of type "' + file.type.bold + '"' + ': ' + file.name.bold + '');
       file.name? file.path = file.name: null;
      });
      form.parse(req, function(err, fields, files) {
@@ -69,6 +70,6 @@ var server = http.createServer(function(req, res) {
   }
 });
 var cwd = process.cwd();
-console.log('storing into: ' + cwd);
+console.log('storing into: ' + cwd.bold);
 var instance = server.listen(8080);
 
