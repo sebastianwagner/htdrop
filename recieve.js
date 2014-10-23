@@ -35,7 +35,17 @@ var server = http.createServer(function(req, res) {
   var timeout = this.timeout / 1000;
   switch(req.method) {
     case 'POST':
+     var reqInfo = {'h': req.headers.host};
+     req.headers['user-agent']? reqInfo.a = req.headers['user-agent']: null;
+     req.headers['content-length']? reqInfo.l = req.headers['content-length']: null;
      var form = new formidable.IncomingForm();
+     form.uploadDir = cwd;
+     //form.multiples = true; //not needed with fileBegin, only for parse.files
+     form.on('fileBegin', function(name, file) {
+      //req.connection.address()
+      console.log('File from ' + util.inspect(reqInfo) + ' of type "' + file.type + '"' + ': ' + file.name + '');
+      file.name? file.path = file.name: null;
+     });
      form.parse(req, function(err, fields, files) {
       leLink(res);
      });
@@ -58,5 +68,7 @@ var server = http.createServer(function(req, res) {
      leForm(res, timeout);
   }
 });
+var cwd = process.cwd();
+console.log('storing into: ' + cwd);
 var instance = server.listen(8080);
 
