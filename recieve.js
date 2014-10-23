@@ -5,21 +5,27 @@ var http = require('http'),
 formidable = require('formidable'),
 util = require('util'),
       qs = require('querystring');
+var upload = '<!DOCTYPE html>' + "\n" + '<form method="post" action="?upload" enctype="multipart/form-data"><input type="file" name="filez" multiple required><input type="submit"></form>',
+ uploadLen = upload.length;
+var link = '<!DOCTYPE html>' + "\n" + '<a href="/">upload</a>',
+ linkLen = link.length;
 
 function leForm(res, timeout) {
  res.setHeader("Cache-Control", 'max-age=' + 1 * 60 * 60 + ', public');
  res.setHeader("Keep-Alive", 'timeout=' + timeout);
  res.setHeader("Content-Type", 'text/html; charset=utf-8');
+ res.setHeader("Content-Length", uploadLen);
  res.writeHead(200);
- res.end('<!DOCTYPE html>' + "\n" + '<form method="post" action="?upload" enctype="multipart/form-data"><input type="file" name="filez" multiple required><input type="submit"></form>');
+ res.end(upload);
 }
 
 function leLink(res) {
     res.setHeader("Connection", 'close');
     res.setHeader("Cache-Control", 'max-age=' + 1 * 60 * 60+ ', public');
     res.setHeader("Content-Type", 'text/html; charset=utf-8');
+    res.setHeader("Content-Length", linkLen);
     res.writeHead(200);
-    res.write('<!DOCTYPE html>' + "\n" + '<a href="/">upload</a>');
+    res.write(link);
     //res.end(util.inspect({fields: fields, files: files}));
     //close TCP-connection proactively
     res.connection.end();
