@@ -1,0 +1,30 @@
+{
+  "name": "htdrop",
+  "version": "0.1.0",
+  "description": "file drop utility receives http uploads via form",
+  "main": "htdrop.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sebastianwagner/htdrop.git"
+  },
+  "keywords": [
+    "http",
+    "upload",
+    "form",
+    "unprivileged"
+  ],
+  "author": "Sebastian Wagner <2000sw@gmail.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/sebastianwagner/htdrop/issues"
+  },
+  "homepage": "https://github.com/sebastianwagner/htdrop",
+  "dependencies": {
+    "colors": "*",
+    "formidable": "*",
+    "querystring": "*"
+  }
+}
